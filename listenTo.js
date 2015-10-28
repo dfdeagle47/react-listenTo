@@ -5,13 +5,15 @@ var Mixin = {
         });
     },
 
-    listenTo: function(emitter, evtName, cb) {
+    listenTo: function(emitter, evtName, cb, context) {
         this._listeningTo = this._listeningTo || [];
 
         //Don't listenTo if the (emitter, evtName, cb) is already there. Prevents multiple firing.
         if (this._hasEvent(emitter, evtName, cb)) {
             return this;
         }
+
+        cb = !!context ? cb.bind(this) : cb;
 
         this._listeningTo.push({
             cb: cb,
